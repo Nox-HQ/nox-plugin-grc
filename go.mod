@@ -3,7 +3,7 @@ module github.com/nox-hq/nox-plugin-grc
 go 1.25.6
 
 require (
-	github.com/felixgeelhaar/agent-go/contrib/planner-llm v0.0.0-20260224200740-fc9a845dd84e
+	github.com/felixgeelhaar/agent-go/contrib/planner-llm v0.0.0-20260224190740-fc9a845dd84e
 	github.com/nox-hq/nox v0.5.0
 	google.golang.org/grpc v1.79.1
 	google.golang.org/protobuf v1.36.11
