@@ -6,7 +6,7 @@ import (
 	"errors"
 	"testing"
 
-	plannerllm "github.com/felixgeelhaar/agent-go/contrib/planner-llm"
+	plannerllm "go.klarlabs.de/agent/contrib/planner-llm"
 	pluginv1 "github.com/nox-hq/nox/gen/nox/plugin/v1"
 	"github.com/nox-hq/nox/sdk"
 )
