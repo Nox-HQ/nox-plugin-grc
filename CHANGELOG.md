@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.0] - 2026-07-18
+
+### Added
+
+- Agentic-AI control mappings (AGENT-001..003) against ISO 27001 Annex A
+
+  Reconciles work that had accumulated only in nox's `plugins/` directory,
+  where a duplicate copy of this plugin lived. That copy has now been removed;
+  this repository is the single source.
+
+
 ## [0.2.0] - 2026-02-24
 
 ### Added
