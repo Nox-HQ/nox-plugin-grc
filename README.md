@@ -4,7 +4,7 @@ Governance, Risk & Compliance plugin for [Nox](https://github.com/nox-hq/nox).
 
 ## Overview
 
-Provides compliance assessment against 10 frameworks with gap analysis, evidence collection, and optional AI-powered remediation guidance.
+Provides compliance assessment against 13 frameworks (15 baselines, including FedRAMP Low/Moderate/High) with gap analysis, evidence collection, and optional AI-powered remediation guidance.
 
 ## Frameworks
 
