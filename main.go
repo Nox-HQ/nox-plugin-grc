@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"sort"
+	"strings"
 
 	pluginv1 "github.com/nox-hq/nox/gen/nox/plugin/v1"
 	"github.com/nox-hq/nox/sdk"
@@ -99,17 +101,44 @@ func handleAssess(ctx context.Context, req sdk.ToolRequest) (*pluginv1.InvokeToo
 	return resp.Build(), nil
 }
 
+// knownFrameworkIDs returns the valid framework identifiers, sorted, for use
+// in operator-facing messages.
+func knownFrameworkIDs() []string {
+	ids := make([]string, 0, len(frameworksByName))
+	for id := range frameworksByName {
+		ids = append(ids, id)
+	}
+	sort.Strings(ids)
+	return ids
+}
+
+// reportUnknownFramework attaches a diagnostic explaining that nothing was
+// assessed.
+//
+// Returning an empty response was actively dangerous here: an empty gap report
+// reads as "no gaps", so a typo — `soc-2` for `soc2`, `SOC2` for `soc2`,
+// `iso-27001` for `iso27001` — produced a clean bill of health for a framework
+// that was never evaluated. The response still carries no findings, because
+// there is genuinely nothing to report about a framework we did not assess;
+// what changes is that the operator is told so, with the valid IDs to hand.
+func reportUnknownFramework(resp *sdk.ResponseBuilder, tool, fwName string) {
+	msg := fmt.Sprintf("%s: no framework specified — nothing was assessed. Valid frameworks: %s",
+		tool, strings.Join(knownFrameworkIDs(), ", "))
+	if fwName != "" {
+		msg = fmt.Sprintf("%s: unknown framework %q — nothing was assessed. Valid frameworks: %s",
+			tool, fwName, strings.Join(knownFrameworkIDs(), ", "))
+	}
+	resp.Diagnostic(pluginv1.DiagnosticSeverity_DIAGNOSTIC_SEVERITY_WARNING, msg, "nox/grc")
+}
+
 func handleGapReport(ctx context.Context, req sdk.ToolRequest) (*pluginv1.InvokeToolResponse, error) {
 	_ = ctx
 	resp := sdk.NewResponse()
 
 	fwName, _ := req.Input["framework"].(string)
-	if fwName == "" {
-		return resp.Build(), nil
-	}
-
 	fw, exists := frameworksByName[fwName]
 	if !exists {
+		reportUnknownFramework(resp, "gap_report", fwName)
 		return resp.Build(), nil
 	}
 
@@ -149,12 +178,9 @@ func handleEvidence(ctx context.Context, req sdk.ToolRequest) (*pluginv1.InvokeT
 	resp := sdk.NewResponse()
 
 	fwName, _ := req.Input["framework"].(string)
-	if fwName == "" {
-		return resp.Build(), nil
-	}
-
 	fw, exists := frameworksByName[fwName]
 	if !exists {
+		reportUnknownFramework(resp, "evidence", fwName)
 		return resp.Build(), nil
 	}
 
