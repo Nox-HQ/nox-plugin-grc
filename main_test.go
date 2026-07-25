@@ -253,3 +253,73 @@ func findByRule(findings []*pluginv1.Finding, ruleID string) []*pluginv1.Finding
 	}
 	return result
 }
+
+// An unknown or missing framework returned an empty response with no
+// explanation. For a compliance tool that is the worst possible failure: an
+// empty gap report reads as "no gaps", so a typo — `soc-2` for `soc2`, `SOC2`
+// for `soc2`, `iso-27001` for `iso27001` — produced a clean bill of health for
+// a framework that was never assessed. Silence that looks like success is
+// exactly what nox's degradation model exists to prevent.
+//
+// The response still carries zero findings (there is nothing to report on a
+// framework we did not evaluate), but it now carries a diagnostic naming the
+// problem and the valid framework IDs, which the host surfaces to the operator.
+func TestGapReportUnknownFrameworkIsNotSilent(t *testing.T) {
+	for _, fw := range []string{"soc-2", "SOC2", "iso-27001", "nonsense", ""} {
+		t.Run("framework="+fw, func(t *testing.T) {
+			client := testClient(t)
+			input, _ := structpb.NewStruct(map[string]any{"framework": fw})
+			resp, err := client.InvokeTool(context.Background(), &pluginv1.InvokeToolRequest{
+				ToolName: "gap_report",
+				Input:    input,
+			})
+			if err != nil {
+				t.Fatalf("InvokeTool: %v", err)
+			}
+			if len(resp.GetFindings()) != 0 {
+				t.Errorf("expected no findings for an unassessed framework, got %d", len(resp.GetFindings()))
+			}
+			if len(resp.GetDiagnostics()) == 0 {
+				t.Errorf("framework %q produced an empty response with no diagnostic — an empty compliance report reads as 'no gaps'", fw)
+			}
+		})
+	}
+}
+
+func TestEvidenceUnknownFrameworkIsNotSilent(t *testing.T) {
+	for _, fw := range []string{"soc-2", "nonsense", ""} {
+		t.Run("framework="+fw, func(t *testing.T) {
+			client := testClient(t)
+			input, _ := structpb.NewStruct(map[string]any{"framework": fw})
+			resp, err := client.InvokeTool(context.Background(), &pluginv1.InvokeToolRequest{
+				ToolName: "evidence",
+				Input:    input,
+			})
+			if err != nil {
+				t.Fatalf("InvokeTool: %v", err)
+			}
+			if len(resp.GetDiagnostics()) == 0 {
+				t.Errorf("framework %q produced an empty response with no diagnostic", fw)
+			}
+		})
+	}
+}
+
+// A valid framework must stay clean: findings, and no diagnostic noise.
+func TestKnownFrameworkEmitsNoDiagnostic(t *testing.T) {
+	client := testClient(t)
+	input, _ := structpb.NewStruct(map[string]any{"framework": "soc2"})
+	resp, err := client.InvokeTool(context.Background(), &pluginv1.InvokeToolRequest{
+		ToolName: "gap_report",
+		Input:    input,
+	})
+	if err != nil {
+		t.Fatalf("InvokeTool: %v", err)
+	}
+	if len(resp.GetFindings()) == 0 {
+		t.Error("expected gap findings for soc2")
+	}
+	if len(resp.GetDiagnostics()) != 0 {
+		t.Errorf("a valid framework must not emit diagnostics, got %d", len(resp.GetDiagnostics()))
+	}
+}
