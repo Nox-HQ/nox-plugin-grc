@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.2] - 2026-07-25
+
+### Fixed
+
+- **An unknown or missing framework no longer returns a silent empty report.**
+  `gap_report` and `evidence` returned an empty response when `framework` was
+  absent or unrecognised. For a compliance tool that is the worst available
+  failure: an empty gap report reads as "no gaps", so a plausible typo produced
+  a clean bill of health for a framework that was never assessed — measured,
+  `soc-2`, `SOC2`, `iso-27001` and `nonsense` all returned zero findings and no
+  explanation, while the correct `soc2` returned eight. Both tools now attach a
+  warning diagnostic naming the unknown framework and listing the valid IDs.
+  The response still carries no findings, because there is genuinely nothing to
+  report about a framework that was not assessed; what changes is that the
+  operator is told. A valid framework emits no diagnostic, asserted by test so
+  this cannot decay into background noise.
+
 ## [v0.7.0] - 2026-07-18
 
 ### Added
