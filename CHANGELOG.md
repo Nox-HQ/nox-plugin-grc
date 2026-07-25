@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+- chore(deps): Go 1.26.5 and nox SDK v1.17.0 (#30)
+- build(deps): bump actions/setup-go from 6.5.0 to 7.0.0 (#22)
+
+
 ## [Unreleased]
 
 ## [v0.7.3] - 2026-07-25
