@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.7.3] - 2026-07-25
+
+### Changed
+
+- **The advertised framework count is now correct, and pinned to the table.**
+  The plugin described itself as covering "10 frameworks" long after it had
+  grown to 15 selectable baselines across 13 frameworks, and because
+  `plugin.yaml` is what generates the registry index entry, that stale figure
+  was what users saw when browsing the marketplace. FedRAMP Low/Moderate/High
+  are three baselines of one framework, so the headline number collapses them
+  (13) and reports the baseline count alongside (15). A test now derives both
+  numbers from the framework table and asserts the manifest and README agree,
+  so a framework added in future cannot leave the advertised number behind.
+
 ## [v0.7.2] - 2026-07-25
 
 ### Fixed
