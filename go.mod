@@ -3,7 +3,7 @@ module github.com/nox-hq/nox-plugin-grc
 go 1.26.5
 
 require (
-	github.com/nox-hq/nox v1.48.1
+	github.com/nox-hq/nox v1.52.0
 	google.golang.org/grpc v1.84.0
 	google.golang.org/protobuf v1.36.12
 )
@@ -13,7 +13,7 @@ require go.klarlabs.de/agent v0.15.0 // indirect
 require (
 	go.klarlabs.de/agent/contrib/planner-llm v0.6.0
 	golang.org/x/net v0.60.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260819154853-08b0e4226688 // indirect
 )
