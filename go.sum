@@ -2,8 +2,8 @@ github.com/golang/protobuf v1.5.4 h1:i7eJL8qZTpSEXOPTxNKhASYpMn+8e5Q6AdndVa1dWek
 github.com/golang/protobuf v1.5.4/go.mod h1:lnTiLA8Wa4RWRcIUkrtSVa5nRhsEGBg48fD6rSs7xps=
 github.com/google/go-cmp v0.7.0 h1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=
 github.com/google/go-cmp v0.7.0/go.mod h1:pXiqmnSA92OHEEa9HXL2W4E7lf9JzCmGVUdgjX3N/iU=
-github.com/nox-hq/nox v1.55.11 h1:RyBgq++39Jczsw9Pc02Q2yJf3WRY5SaxIRmdDBDTKpI=
-github.com/nox-hq/nox v1.55.11/go.mod h1:wHd9d+K5fxXwQxq5N6N5PI2GKA+rx7Lav4gHxureO64=
+github.com/nox-hq/nox v1.62.0 h1:YauNulv3qPprX+D6PvA1tXK/c9S5HNc8AZb38JoJ1DU=
+github.com/nox-hq/nox v1.62.0/go.mod h1:w50OxTbvOMwStxSEiyNyGiwaIMXcpYs9gohhJUPqVXw=
 go.klarlabs.de/agent v0.15.0 h1:2g7AwPkQuUoLmli/0JlmDGR/mhtPGCsqt8bSpxFp98A=
 go.klarlabs.de/agent v0.15.0/go.mod h1:bv1jLH8B+vHpGLq0HH66L1evUGHpvWMy2wYgmBJn0Lk=
 go.klarlabs.de/agent/contrib/planner-llm v0.6.0 h1:jhnZboXPaqAIhixrpF3piUwyrY38iMcLhLlggBb23Ng=
