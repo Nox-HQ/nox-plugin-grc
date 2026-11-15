@@ -1,5 +1,7 @@
 # nox-plugin-grc
 
+[![nox security grade](.github/nox-badge.svg)](https://github.com/nox-hq/nox)
+
 Governance, Risk & Compliance plugin for [Nox](https://github.com/nox-hq/nox).
 
 ## Overview
